@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@react-native-html/parser": ["packages/parser/"],
+      "@react-native-html/renderer": ["packages/renderer/"]
+    },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "react",

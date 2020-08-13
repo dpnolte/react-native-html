@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TableNode } from '@react-native-html/parser';
 import { StyleSheet, StyleProp } from 'react-native';
 import { WebViewProps } from 'react-native-webview';
@@ -29,6 +29,11 @@ enum HtmlTableElements {
   HtmlTableElementOdd = 'odd',
 }
 
+const VALID_TABLE_ELEMENTS = new Set(['th', 'tr', 'td', 'even', 'odd']);
+const isValidHtmlTableElement = (
+  input: string | keyof HtmlTableStyles
+): input is HtmlTableElements => VALID_TABLE_ELEMENTS.has(input);
+
 export const HtmlNodeTable: React.FC<Props> = ({
   node,
   styles: providedStyles,
@@ -37,11 +42,25 @@ export const HtmlNodeTable: React.FC<Props> = ({
   firstChildInListItemStyle,
   maxWidth,
 }) => {
-  const tableStyles = `
-  ${Object.keys(providedStyles).map((element): string => stylePropsToCss({
-    element: element as HtmlTableElements,
-    styleProps: providedStyles[element as keyof HtmlTableStyles],
-  })).join('')}`;
+  const [tableStyles, setTableStyles] = useState('');
+
+  useEffect(() => {
+    const nextTableStyles = `
+    ${Object.keys(providedStyles)
+      .reduce((acc, element) => {
+        if (isValidHtmlTableElement(element)) {
+          acc.push(
+            stylePropsToCss({
+              element,
+              styleProps: providedStyles[element],
+            })
+          );
+        }
+        return acc;
+      }, [] as string[])
+      .join('')}`;
+    setTableStyles(nextTableStyles);
+  }, [providedStyles]);
 
   return (
     <AutoHeightWebView
@@ -76,7 +95,7 @@ export const HtmlNodeTable: React.FC<Props> = ({
       width={maxWidth}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   webview: {
@@ -98,23 +117,23 @@ const stylePropsToCss = ({ element, styleProps }: StylePropsToCssProps): string 
   switch (element) {
     case HtmlTableElements.HtmlTableElementTh:
       selector = 'table th, table thead';
-      cssStyle = parseTableCelStyleProps(styleProps as HtmlTableCellStyles)
+      cssStyle = parseTableCellStyleProps(styleProps as HtmlTableCellStyles);
       break;
     case HtmlTableElements.HtmlTableElementTr:
       selector = 'table tr';
-      cssStyle = parseTableCelStyleProps(styleProps as HtmlTableCellStyles)
+      cssStyle = parseTableCellStyleProps(styleProps as HtmlTableCellStyles);
       break;
     case HtmlTableElements.HtmlTableElementTd:
       selector = 'table td';
-      cssStyle = parseTableCelStyleProps(styleProps as HtmlTableCellStyles)
+      cssStyle = parseTableCellStyleProps(styleProps as HtmlTableCellStyles);
       break;
     case HtmlTableElements.HtmlTableElementEven:
       selector = 'table tr:nth-child(even)';
-      cssStyle = parseTableCelStyleProps(styleProps as HtmlTableStylesEvenOdd);
+      cssStyle = parseTableCellStyleProps(styleProps as HtmlTableStylesEvenOdd);
       break;
     case HtmlTableElements.HtmlTableElementOdd:
       selector = 'table tr:nth-child(odd)';
-      cssStyle = parseTableCelStyleProps(styleProps as HtmlTableStylesEvenOdd);
+      cssStyle = parseTableCellStyleProps(styleProps as HtmlTableStylesEvenOdd);
       break;
     default:
       break;
@@ -129,15 +148,16 @@ const stylePropsToCss = ({ element, styleProps }: StylePropsToCssProps): string 
   `;
 };
 
-const parseTableCelStyleProps = (style: HtmlTableCellStyles): string => {
+const parseTableCellStyleProps = (style: HtmlTableCellStyles): string => {
   let css = '';
 
   // Default padding
   let padding = '';
   if (style.padding) {
-    padding = typeof style.padding === 'number'
-      ? `padding: ${style.padding}px;\n`
-      : `padding: ${style.padding};\n`;
+    padding =
+      typeof style.padding === 'number'
+        ? `padding: ${style.padding}px;\n`
+        : `padding: ${style.padding};\n`;
   }
 
   // React-Native specific padding settings
@@ -169,4 +189,4 @@ const parseTableCelStyleProps = (style: HtmlTableCellStyles): string => {
   }
 
   return css;
-}
+};
