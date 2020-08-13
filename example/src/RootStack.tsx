@@ -10,5 +10,6 @@ export type RootStackParamList = {
   ListExample: undefined;
   IFrameExample: undefined;
   TableExample: undefined;
+  TableExampleTooWide: undefined;
   CustomLinkHandlingExample: undefined;
 };

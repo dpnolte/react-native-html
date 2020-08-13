@@ -4,7 +4,7 @@ import { HtmlStyles } from '@react-native-html/renderer';
 import { HtmlScreenBase } from './HtmlScreenBase';
 
 const html = `
-<h1>Table Example</h1>
+<h1>Table Wide Example</h1>
 <table>
   <tr>
     <th>Company</th>
@@ -12,6 +12,8 @@ const html = `
     <th>Country</th>
     <th>Contact</th>
     <th>Country</th>
+    <th>Extra 1</th>
+    <th>Extra 2</th>
   </tr>
   <tr>
     <td>Alfreds Futterkiste</td>
@@ -19,6 +21,8 @@ const html = `
     <td>Germany</td>
     <td>Maria Anders</td>
     <td>Germany</td>
+    <td>Long extra 1</td>
+    <td>Long extra 2</td>
   </tr>
   <tr>
     <td>Centro comercial Moctezuma</td>
@@ -26,6 +30,8 @@ const html = `
     <td>Mexico</td>
     <td>Maria Anders</td>
     <td>Germany</td>
+    <td>Long extra 1</td>
+    <td>Long extra 2</td>
   </tr>
   <tr>
     <td>Ernst Handel</td>
@@ -33,6 +39,8 @@ const html = `
     <td>Austria</td>
     <td>Roland Mendel</td>
     <td>Austria</td>
+    <td>Long extra 1</td>
+    <td>Long extra 2</td>
   </tr>
   <tr>
     <td>Island Trading</td>
@@ -40,6 +48,8 @@ const html = `
     <td>UK</td>
     <td>Helen Bennett</td>
     <td>UK</td>
+    <td>Long extra 1</td>
+    <td>Long extra 2</td>
   </tr>
   <tr>
     <td>Laughing Bacchus Winecellars</td>
@@ -47,6 +57,8 @@ const html = `
     <td>Canada</td>
     <td>Yoshi Tannamuri</td>
     <td>Canada</td>
+    <td>Long extra 1</td>
+    <td>Long extra 2</td>
   </tr>
   <tr>
     <td>Magazzini Alimentari Riuniti</td>
@@ -54,6 +66,8 @@ const html = `
     <td>Italy</td>
     <td>Giovanni Rovelli</td>
     <td>Italy</td>
+    <td>Long extra 1</td>
+    <td>Long extra 2</td>
   </tr>
 </table>
 `;
@@ -81,6 +95,6 @@ const htmlStyles: HtmlStyles = {
   },
 };
 
-export const TableExampleScreen: React.FC = () => {
+export const TableExampleTooWideScreen: React.FC = () => {
   return <HtmlScreenBase rawHtml={html} htmlViewProps={{ htmlStyles }} />;
 };

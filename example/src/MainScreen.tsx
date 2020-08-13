@@ -73,6 +73,12 @@ export const MainScreen: React.FC<Props> = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.touchable}
+          onPress={() => navigation.navigate('TableExampleTooWide')}
+        >
+          <Text style={styles.touchableLabel}>Table wide Example</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.touchable}
           onPress={() => navigation.navigate('CustomLinkHandlingExample')}
         >
           <Text style={styles.touchableLabel}>Custom Link Handling Example</Text>

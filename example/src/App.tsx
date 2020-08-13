@@ -14,6 +14,7 @@ import { ListExampleScreen } from './ListExampleScreen';
 import { IFrameExampleScreen } from './IFrameExampleScreen';
 import { TableExampleScreen } from './TableExampleScreen';
 import { CustomLinkHandlingExampleScreen } from './CustomLinkHandlingExampleScreen';
+import { TableExampleTooWideScreen } from './TableExampleTooWideScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -32,6 +33,7 @@ export const App: React.FC = () => {
         <Stack.Screen name="ListExample" component={ListExampleScreen} />
         <Stack.Screen name="IFrameExample" component={IFrameExampleScreen} />
         <Stack.Screen name="TableExample" component={TableExampleScreen} />
+        <Stack.Screen name="TableExampleTooWide" component={TableExampleTooWideScreen} />
         <Stack.Screen
           name="CustomLinkHandlingExample"
           component={CustomLinkHandlingExampleScreen}
