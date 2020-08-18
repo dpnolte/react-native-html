@@ -30,14 +30,18 @@ type HtmlTableElementBaseViewStylePaddingKeys = 'padding' | 'paddingHorizontal' 
 type HtmlTableElementBaseTextStyleKeys = 'color' | 'fontSize' | 'fontWeight' | 'textAlign';
 
 type HtmlElementTableCelStyleKeys =
-  HtmlTableElementBaseViewStyleBackgroundColorKeys | HtmlTableElementBaseViewStylePaddingKeys;
+  | HtmlTableElementBaseViewStyleBackgroundColorKeys
+  | HtmlTableElementBaseViewStylePaddingKeys;
 
-type MergePick<T> = {[K in keyof T]: T[K]}
+type MergePick<T> = { [K in keyof T]: T[K] };
 
-export type HtmlTableCellStyles =
-  MergePick<Pick<ViewStyle, HtmlElementTableCelStyleKeys> & Pick<TextStyle, HtmlTableElementBaseTextStyleKeys>>;
-export type HtmlTableStylesEvenOdd =
-  MergePick<Pick<ViewStyle, HtmlTableElementBaseViewStyleBackgroundColorKeys> & Pick<TextStyle, HtmlTableElementBaseTextStyleKeys>>;
+export type HtmlTableCellStyles = MergePick<
+  Pick<ViewStyle, HtmlElementTableCelStyleKeys> & Pick<TextStyle, HtmlTableElementBaseTextStyleKeys>
+>;
+export type HtmlTableStylesEvenOdd = MergePick<
+  Pick<ViewStyle, HtmlTableElementBaseViewStyleBackgroundColorKeys> &
+    Pick<TextStyle, HtmlTableElementBaseTextStyleKeys>
+>;
 
 export interface HtmlTableStyles {
   th?: StyleProp<HtmlTableCellStyles>;
@@ -45,6 +49,7 @@ export interface HtmlTableStyles {
   td?: StyleProp<HtmlTableCellStyles>;
   even?: StyleProp<HtmlTableStylesEvenOdd>;
   odd?: StyleProp<HtmlTableStylesEvenOdd>;
+  table?: StyleProp<ViewStyle>;
 }
 
 export interface HtmlStyles extends HtmlListStyles, HtmlHeaderStyles {
@@ -56,5 +61,5 @@ export interface HtmlStyles extends HtmlListStyles, HtmlHeaderStyles {
   touchable?: StyleProp<ViewStyle>;
   iframe?: StyleProp<ViewStyle>;
   firstChildInListItem?: StyleProp<BasicStyle>;
-  table?: HtmlTableStyles,
+  table?: HtmlTableStyles;
 }

@@ -64,7 +64,7 @@ export const HtmlNodeTable: React.FC<Props> = ({
 
   return (
     <AutoHeightWebView
-      style={styles.webview}
+      style={[styles.webview, providedStyles.table]}
       onLayout={onLayout}
       firstChildInListItemStyle={firstChildInListItemStyle}
       WebViewComponent={WebViewComponent}
