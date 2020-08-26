@@ -77,17 +77,27 @@ export const HtmlNodeTable: React.FC<Props> = ({
                   body {
                       padding: 0;
                       margin: 0;
+                      /* system fonts */
+                      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
                   }
                   table {
                       border-collapse: collapse;
+                      border-spacing: 0;
+                      max-width: 100%;
+                      width: 100%;
                   }
                   ${tableStyles}
+                  ${providedStyles.customCss ?? ''}
                 </style>
             </head>
             <body>
-              <div style="overflow-x: auto;">
-                  ${node.source}
-              </div>
+              ${
+                providedStyles.overflowX !== false
+                  ? `<div style="overflow-x: auto;">${node.source}</div>`
+                  : node.source
+              }
+              
             </body>
           </html>
         `,

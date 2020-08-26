@@ -50,6 +50,8 @@ export interface HtmlTableStyles {
   even?: StyleProp<HtmlTableStylesEvenOdd>;
   odd?: StyleProp<HtmlTableStylesEvenOdd>;
   table?: StyleProp<ViewStyle>;
+  customCss?: string;
+  overflowX?: boolean;
 }
 
 export interface HtmlStyles extends HtmlListStyles, HtmlHeaderStyles {

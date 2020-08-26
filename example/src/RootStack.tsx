@@ -11,5 +11,6 @@ export type RootStackParamList = {
   IFrameExample: undefined;
   TableExample: undefined;
   TableExampleTooWide: undefined;
+  TableNoOverflowXExampleScreen: undefined;
   CustomLinkHandlingExample: undefined;
 };
