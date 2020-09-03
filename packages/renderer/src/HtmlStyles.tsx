@@ -58,6 +58,10 @@ export interface HtmlStyles extends HtmlListStyles, HtmlHeaderStyles {
   paragraph?: StyleProp<TextStyle>; // stand-alone text or text container
   paragraphAfterHeader?: StyleProp<TextStyle>;
   text?: StyleProp<TextStyle>;
+  italic?: StyleProp<TextStyle>;
+  bold?: StyleProp<TextStyle>;
+  underline?: StyleProp<TextStyle>;
+  strikethrough?: StyleProp<TextStyle>;
   image?: StyleProp<ImageStyle>;
   link?: StyleProp<TextStyle>;
   touchable?: StyleProp<ViewStyle>;

@@ -8,6 +8,10 @@ interface Props {
   node: TextNode;
   TextComponent: React.ElementType<TextProperties>;
   textStyle?: StyleProp<TextStyle>;
+  italicStyle?: StyleProp<TextStyle>;
+  boldStyle?: StyleProp<TextStyle>;
+  underlineStyle?: StyleProp<TextStyle>;
+  strikethroughStyle?: StyleProp<TextStyle>;
   paragraphStyle?: StyleProp<TextStyle>;
   paragraphAfterHeaderStyle?: StyleProp<TextStyle>;
   linkStyle?: StyleProp<TextStyle>;
@@ -26,19 +30,23 @@ export const HtmlNodeText: React.FC<Props> = ({
   headerStyles,
   onLayout,
   firstChildInListItemStyle,
+  italicStyle,
+  boldStyle,
+  underlineStyle,
+  strikethroughStyle,
 }) => {
   const combinedStyles: StyleProp<TextStyle>[] = [textStyle];
   if (node.isBold) {
-    combinedStyles.push(styles.bold);
+    combinedStyles.push(boldStyle ?? styles.bold);
   }
   if (node.isItalic) {
-    combinedStyles.push(styles.italic);
+    combinedStyles.push(italicStyle ?? styles.italic);
   }
   if (node.isUnderlined) {
-    combinedStyles.push(styles.underline);
+    combinedStyles.push(underlineStyle ?? styles.underline);
   }
   if (node.hasStrikethrough) {
-    combinedStyles.push(styles.strike);
+    combinedStyles.push(strikethroughStyle ?? styles.strike);
   }
 
   if (!node.isWithinTextContainer) {

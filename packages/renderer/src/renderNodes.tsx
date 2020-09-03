@@ -89,6 +89,10 @@ const renderNode = (
         key={key}
         node={node}
         textStyle={htmlStyles.text}
+        boldStyle={htmlStyles.bold}
+        italicStyle={htmlStyles.italic}
+        underlineStyle={htmlStyles.underline}
+        strikethroughStyle={htmlStyles.strikethrough}
         paragraphStyle={htmlStyles.paragraph}
         paragraphAfterHeaderStyle={htmlStyles.paragraphAfterHeader}
         linkStyle={htmlStyles.link}
@@ -214,7 +218,7 @@ const renderNode = (
         WebViewComponent={WebViewComponent}
         maxWidth={maxWidth}
       />
-    )
+    );
   }
 
   return null;
