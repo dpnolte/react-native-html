@@ -120,6 +120,7 @@ export function parseElement({
       isWithinList,
       block,
       nodes: nodeRelationshipManager.getNodes(),
+      nodeRelationshipManager,
     });
     if (textNode) {
       parsedNode = textNode;

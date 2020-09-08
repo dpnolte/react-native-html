@@ -690,13 +690,93 @@ describe('parseHtml - text container tests', () => {
       },
     ]);
   });
-  it('can split text container by nested div', async () => {
+  it('can split text container by nested div and consolidate text containr', async () => {
     const pretext = 'Check ';
     const prediv = 'prediv ';
     const div = 'div';
     const afterdiv = ' afterdiv ';
     const subtext = ' out! ';
     const rawHtml = `<div>${pretext}<span>${prediv}<div>${div}</div><b>${afterdiv}</b>${subtext}</span></div>`;
+    const result = (await parseHtml(rawHtml, { ...getDefaultParseHtmlOptions() })) as SuccessResult;
+    const keyPrefix2 = getNodeKey({ index: 2 });
+    expect(result.type).toBe(ResultType.Success);
+    expect(result.nodes).toEqual([
+      {
+        // merges same text.. and replaces text container by text node if text container has only one node
+        type: NodeType.Text,
+        key: getNodeKey({ index: 0 }),
+        content: 'Check prediv',
+        parentKey: undefined,
+        hasStrikethrough: false,
+        isUnderlined: false,
+        isItalic: false,
+        isBold: false,
+        isWithinTextContainer: false,
+        isWithinLink: false,
+        isWithinList: false,
+        canBeTextContainerBase: false,
+        isAfterHeader: false,
+      },
+      {
+        type: NodeType.Text,
+        key: getNodeKey({ index: 1 }),
+        content: div,
+        hasStrikethrough: false,
+        isUnderlined: false,
+        isItalic: false,
+        isBold: false,
+        isWithinTextContainer: false,
+        isWithinLink: false,
+        isWithinList: false,
+        canBeTextContainerBase: true,
+        isAfterHeader: false,
+      } as TextNode,
+      {
+        type: NodeType.TextContainer,
+        key: getNodeKey({ index: 2 }),
+        isAfterHeader: false,
+        children: [
+          {
+            type: NodeType.Text,
+            key: getNodeKey({ index: 0, keyPrefix: keyPrefix2 }),
+            parentKey: keyPrefix2,
+            content: 'afterdiv ', // won't merge together as this is bold and the next text is not
+            hasStrikethrough: false,
+            isUnderlined: false,
+            isItalic: false,
+            isBold: true,
+            isWithinTextContainer: true,
+            isWithinLink: false,
+            isWithinList: false,
+            canBeTextContainerBase: false,
+            isAfterHeader: false,
+          } as TextNode,
+          {
+            content: 'out!',
+            type: NodeType.Text,
+            key: getNodeKey({ index: 1, keyPrefix: keyPrefix2 }),
+            parentKey: keyPrefix2,
+            hasStrikethrough: false,
+            isUnderlined: false,
+            isItalic: false,
+            isBold: false,
+            isWithinTextContainer: true,
+            isWithinLink: false,
+            isWithinList: false,
+            canBeTextContainerBase: true,
+            isAfterHeader: false,
+          } as TextNode,
+        ],
+      } as TextContainerNode,
+    ]);
+  });
+  it('can split text container by nested div', async () => {
+    const pretext = 'Check ';
+    const prediv = 'prediv ';
+    const div = 'div';
+    const afterdiv = ' afterdiv ';
+    const subtext = ' out! ';
+    const rawHtml = `<div><b>${pretext}</b><span>${prediv}<div>${div}</div><b>${afterdiv}</b>${subtext}</span></div>`;
     const result = (await parseHtml(rawHtml, { ...getDefaultParseHtmlOptions() })) as SuccessResult;
     const keyPrefix = getNodeKey({ index: 0 });
     const keyPrefix2 = getNodeKey({ index: 2 });
@@ -708,9 +788,24 @@ describe('parseHtml - text container tests', () => {
         isAfterHeader: false,
         children: [
           {
-            content: 'Check prediv', // merges same text
+            content: 'Check ', // text is not merged as this is contained within <b>
             type: NodeType.Text,
             key: getNodeKey({ index: 0, keyPrefix }),
+            parentKey: keyPrefix,
+            hasStrikethrough: false,
+            isUnderlined: false,
+            isItalic: false,
+            isBold: true,
+            isWithinTextContainer: true,
+            isWithinLink: false,
+            isWithinList: false,
+            canBeTextContainerBase: false,
+            isAfterHeader: false,
+          } as TextNode,
+          {
+            content: 'prediv',
+            type: NodeType.Text,
+            key: getNodeKey({ index: 1, keyPrefix }),
             parentKey: keyPrefix,
             hasStrikethrough: false,
             isUnderlined: false,

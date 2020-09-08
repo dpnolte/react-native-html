@@ -141,29 +141,35 @@ export const createDefaultParserPerTag = (): ParserPerTag => {
       isWithinList,
       nodeRelationshipManager,
     }: TagResolverArgs) => {
-      // try to add to previous text node if any
-      const nodes = nodeRelationshipManager.getNodes();
-      if (nodes.length > 0) {
-        const prevNode = nodes[nodes.length - 1];
-        if (isTextNode(prevNode)) {
-          prevNode.content += '\n';
-          return undefined;
+      // add new line only if the previous element was br
+      if (nodeRelationshipManager.hasBreak()) {
+        // try to add to previous text node if any
+        const nodes = nodeRelationshipManager.getNodes();
+        if (nodes.length > 0) {
+          const prevNode = nodes[nodes.length - 1];
+          if (isTextNode(prevNode)) {
+            prevNode.content += '\n';
+            return undefined;
+          }
         }
+        return {
+          type: NodeType.Text,
+          content: '\n',
+          header,
+          isBold,
+          isItalic,
+          hasStrikethrough,
+          isUnderlined,
+          isWithinTextContainer,
+          isWithinLink,
+          isWithinList,
+          canBeTextContainerBase: true,
+          isAfterHeader: false,
+        } as TextNode;
       }
-      return {
-        type: NodeType.Text,
-        content: '\n',
-        header,
-        isBold,
-        isItalic,
-        hasStrikethrough,
-        isUnderlined,
-        isWithinTextContainer,
-        isWithinLink,
-        isWithinList,
-        canBeTextContainerBase: true,
-        isAfterHeader: false,
-      } as TextNode;
+
+      nodeRelationshipManager.setHasBreak(true);
+      return undefined;
     },
   };
   parserPerTag.br = breakParser;
@@ -196,7 +202,7 @@ export const createDefaultParserPerTag = (): ParserPerTag => {
         source: `${getOuterHTML(element as Node)}`,
       } as TableNode;
     },
-  }
+  };
   parserPerTag.table = tableParser;
 
   return parserPerTag;

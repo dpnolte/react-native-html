@@ -5,6 +5,7 @@ import { isOnlyWhiteSpaces, TextElement } from './types/elements';
 import { BlockBase } from './blocks/BlockBase';
 import { isDefinedBlock } from './blocks/DefinedBlock';
 import { isAnonymousBlock, AnonymousBlock } from './blocks/AnonymousBlock';
+import { NodeRelationshipManager } from './nodes/NodeRelationshipManager';
 
 interface ParseTextArgs {
   element: TextElement;
@@ -18,6 +19,7 @@ interface ParseTextArgs {
   isWithinLink: boolean;
   isWithinList: boolean;
   nodes: NodeBase[];
+  nodeRelationshipManager: NodeRelationshipManager;
 }
 
 const newLinesWithAdjacentSpaceRegex = /[\t ]*(\n)[\t ]*/g;
@@ -37,6 +39,7 @@ export const parseText = (parseTextArgs: ParseTextArgs): TextNodeWithoutKey | un
     isWithinLink,
     isWithinList,
     nodes,
+    nodeRelationshipManager,
   } = parseTextArgs;
   /**
    * @note Texts containing only whitespace characters are only allowed if direct child
@@ -128,6 +131,11 @@ export const parseText = (parseTextArgs: ParseTextArgs): TextNodeWithoutKey | un
     }
   }
   content = decodeHTML(content);
+
+  if (nodeRelationshipManager.hasBreak()) {
+    content = `\n${content}`;
+    nodeRelationshipManager.setHasBreak(false);
+  }
 
   const previousSibling = nodes.length > 0 && nodes[nodes.length - 1];
 

@@ -180,6 +180,9 @@ export const addNode = ({
       nodeReferences.domIdToKeys.set(domId, { key, steps });
     }
   });
+  if (nodeRelationshipManager.hasBreak()) {
+    nodeRelationshipManager.setHasBreak(false);
+  }
   return node;
 };
 

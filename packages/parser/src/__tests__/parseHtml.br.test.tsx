@@ -5,7 +5,7 @@ import { LinkNode } from '../../../renderer/src';
 
 describe('parseHtml - br tests', () => {
   it('parse br as \\n', async () => {
-    const rawHtml = '<p><br /></p><p>hallo dit is een test</p>';
+    const rawHtml = '<p><br /><br /></p><p>hallo dit is een test</p>';
     const result = (await parseHtml(rawHtml, { ...getDefaultParseHtmlOptions() })) as SuccessResult;
 
     expect(result.type).toBe(ResultType.Success);
@@ -72,7 +72,7 @@ describe('parseHtml - br tests', () => {
 
     expect(children).toEqual([
       {
-        content: 'Author name is job title and job description {newline}{newline}',
+        content: 'Author name is job title and job description {newline}',
         type: NodeType.Text,
         key: getNodeKey({ index: 0, keyPrefix }),
         parentKey: keyPrefix,
@@ -87,7 +87,7 @@ describe('parseHtml - br tests', () => {
         isAfterHeader: false,
       } as TextNode,
       {
-        content: 'Contact {newline}',
+        content: '{newline}Contact ',
         type: NodeType.Text,
         key: getNodeKey({ index: 1, keyPrefix }),
         parentKey: keyPrefix,
@@ -126,7 +126,7 @@ describe('parseHtml - br tests', () => {
         ],
       } as LinkNode,
       {
-        content: ' {newline}',
+        content: ' ',
         type: NodeType.Text,
         key: getNodeKey({ index: 3, keyPrefix }),
         parentKey: keyPrefix,
@@ -164,6 +164,30 @@ describe('parseHtml - br tests', () => {
           } as TextNode,
         ],
       } as LinkNode,
+    ]);
+  });
+
+  it('do not parse <br> as \\n when only one <br>', async () => {
+    const rawHtml = '<h2>Hello, how are you?<strong><br /></strong></h2>';
+    const result = (await parseHtml(rawHtml, { ...getDefaultParseHtmlOptions() })) as SuccessResult;
+
+    expect(result.type).toBe(ResultType.Success);
+    expect(result.nodes).toEqual([
+      {
+        content: 'Hello, how are you?',
+        type: NodeType.Text,
+        key: getNodeKey({ index: 0 }),
+        hasStrikethrough: false,
+        isUnderlined: false,
+        isItalic: false,
+        isBold: false,
+        isWithinTextContainer: false,
+        isWithinLink: false,
+        isWithinList: false,
+        canBeTextContainerBase: false,
+        isAfterHeader: false,
+        header: 2,
+      } as TextNode,
     ]);
   });
 });
