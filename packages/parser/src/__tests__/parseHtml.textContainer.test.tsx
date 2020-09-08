@@ -690,7 +690,7 @@ describe('parseHtml - text container tests', () => {
       },
     ]);
   });
-  it('can split text container by nested div and consolidate text containr', async () => {
+  it('can split text container by nested div and consolidate text container', async () => {
     const pretext = 'Check ';
     const prediv = 'prediv ';
     const div = 'div';
@@ -714,7 +714,7 @@ describe('parseHtml - text container tests', () => {
         isWithinTextContainer: false,
         isWithinLink: false,
         isWithinList: false,
-        canBeTextContainerBase: false,
+        canBeTextContainerBase: true,
         isAfterHeader: false,
       },
       {
