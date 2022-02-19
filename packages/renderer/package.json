@@ -10,7 +10,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "url-parse": "^1.4.7"
+    "url-parse": "^1.5.6"
   },
   "peerDependencies": {
     "@react-native-html/parser": ">= 0.24",
